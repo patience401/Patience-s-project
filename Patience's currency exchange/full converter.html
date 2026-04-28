@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Full Currency Converter</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <img src="LOGO.png" width="75" height="75">
+        <h6>CURRENCY EXCHANGE <br> WEBSITE</h6>
+    </div>
+
+    <nav>
+        <button><a href="index.html">Home</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="Full converter.html">Full Converter</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="Currency detail.html">currencyDetails</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="history.html">History</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="setting.html">Settings</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </nav>
+</header>
+<div class="converter-box">
+
+    <input type="number" id="amount" placeholder="Enter amount">
+
+    <select id="from">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="KES">KES</option>
+        <option value="UGX">UGX</option>
+        <option value="TZS">TZS</option>
+        <option value="RWF">RWF</option>
+    </select>
+
+    <button class="swap-btn" onclick="swap()">⇅ SWAP</button>
+
+    <select id="to">
+        <option value="RWF">RWF</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="KES">KES</option>
+        <option value="UGX">UGX</option>
+        <option value="TZS">TZS</option>
+    </select>
+
+    <button class="convert-btn" onclick="convert()">Convert</button>
+
+    <div class="result" id="result">Result will appear here</div>
+
+</div>
+   <footer class="footer">
+    <h3>Patience Currency Exchange</h3>
+    <p>Phone: +250 72 590 503 6</p>
+    <p>Email:Patience Currency Exchange @gmail.com</p>
+    <p>Location: Nyarugenge, Rwanda</p>
+    <p>&copy; Augst,2026_2027</p>
+</footer>
+<script>
+const rates = {
+    USD: 1250,
+    EUR: 1350,
+    GBP: 1550,
+    KES: 9,
+    UGX: 0.33,
+    TZS: 0.5,
+    RWF: 1
+};
+function convert() {
+    let amount = parseFloat(document.getElementById("amount").value);
+    let from = document.getElementById("from").value;
+    let to = document.getElementById("to").value;
+
+    if (isNaN(amount)) {
+        document.getElementById("result").innerHTML = " Enter valid amount";
+        return;
+    }
+
+    let inRWF = amount * rates[from];
+    let result = inRWF / rates[to];
+
+    let time = new Date().toLocaleString();
+
+    document.getElementById("result").innerHTML =
+        " Result: " + result.toFixed(2) + " " + to +
+        "<br> Updated: " + time;
+}
+function swap() {
+    let from = document.getElementById("from");
+    let to = document.getElementById("to");
+
+    let temp = from.value;
+    from.value = to.value;
+    to.value = temp;
+}
+
+</script>
+
+</body>
+</html>

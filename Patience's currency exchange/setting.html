@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Settings</title>
+
+<style>
+:root {
+    --blue: #1f4e6b;
+    --gold: #f6b64f;
+    --bg: #f5f6fa;
+    --card: #ffffff;
+    --text: #222;
+}
+
+body.dark {
+    --bg: #1e1e2f;
+    --card: #2a2a40;
+    --text: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* 🔗 NAVBAR */
+.navbar {
+    background: var(--blue);
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    background: var(--gold);
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    margin: 5px;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    background: #ffcc70;
+}
+
+/* ⚙️ SETTINGS CARD */
+.container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.setting {
+    margin: 20px 0;
+}
+
+label {
+    font-weight: bold;
+}
+
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: none;
+}
+
+/* ACTIVE PAGE */
+.active {
+    border: 2px solid black;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔥 YOUR NAVBAR -->
+<div class="navbar">
+    <a href="index.html" class="nav-btn">Home</a>
+    <a href="converter.html" class="nav-btn">Full Converter</a>
+    <a href="details.html" class="nav-btn">Currency Details</a>
+    <a href="history.html" class="nav-btn">History</a>
+    <a href="settings.html" class="nav-btn active">Settings</a>
+</div>
+
+<!-- ⚙️ SETTINGS -->
+<div class="container">
+    <h2>⚙️ Settings</h2>
+
+    <!-- Dark Mode -->
+    <div class="setting">
+        <label>Dark / Light Mode</label>
+        <button onclick="toggleMode()">Toggle Mode</button>
+    </div>
+
+    <!-- Currency -->
+    <div class="setting">
+        <label>Default Currency</label>
+        <select id="currency" onchange="saveSettings()">
+            <option value="USD">USD - Dollar</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="RWF">RWF - Franc</option>
+            <option value="GBP">GBP - Pound</option>
+        </select>
+    </div>
+
+    <!-- Language -->
+    <div class="setting">
+        <label>Language</label>
+        <select id="language" onchange="saveSettings()">
+            <option value="en">English</option>
+            <option value="rw">Kinyarwanda</option>
+            <option value="fr">French</option>
+        </select>
+    </div>
+</div>
+
+<script>
+// Load saved settings
+window.onload = function() {
+    let mode = localStorage.getItem("mode");
+    let currency = localStorage.getItem("currency");
+    let language = localStorage.getItem("language");
+
+    if(mode === "dark") {
+        document.body.classList.add("dark");
+    }
+
+    if(currency) document.getElementById("currency").value = currency;
+    if(language) document.getElementById("language").value = language;
+}
+
+// Toggle Dark Mode
+function toggleMode() {
+    document.body.classList.toggle("dark");
+    let mode = document.body.classList.contains("dark") ? "dark" : "light";
+    localStorage.setItem("mode", mode);
+}
+
+// Save Settings
+function saveSettings() {
+    let currency = document.getElementById("currency").value;
+    let language = document.getElementById("language").value;
+
+    localStorage.setItem("currency", currency);
+    localStorage.setItem("language", language);
+}
+</script>
+
+</body>
+</html>

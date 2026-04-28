@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>History Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <img src="LOGO.png" width="75" height="75">
+        <h6>CURRENCY EXCHANGE <br> WEBSITE</h6>
+    </div>
+
+    <nav>
+        <button><a href="index.html">Home</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="Full converter.html">Full Converter</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="Currency Detail.html">Current Details</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="history.html">History</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="setting.html">Settings</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </nav>
+</header>
+
+<h2>Conversion History</h2>
+
+<!-- CONTROLS -->
+<div class="controls">
+
+    <!-- FILTER BY CURRENCY -->
+    <select id="filter" onchange="filterTable()">
+        <option value="all">All Currencies</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="KES">KES</option>
+        <option value="UGX">UGX</option>
+        <option value="TZS">TZS</option>
+        <option value="RWF">RWF</option>
+    </select>
+
+    <!-- CLEAR HISTORY BUTTON -->
+     <button class="btn add" onclick="addSample()">Add Sample</button>
+    <button class="btn clear" onclick="clearHistory()">Clear History</button>
+
+</div>
+
+<!-- TABLE -->
+<div class="history-container">
+
+<table>
+    <thead>
+        <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Amount</th>
+            <th>Result</th>
+            <th>Date & Time</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody id="historyBody"></tbody>
+</table>
+
+<div id="empty" class="empty" style="display:none;">
+    No conversion history found 
+</div>
+ <footer class="footer">
+    <h3>Patience Currency Exchange</h3>
+    <p>Phone: +250 72 590 503 6</p>
+    <p>Email:Patience Currency Exchange @gmail.com</p>
+    <p>Location: Nyarugenge, Rwanda</p>
+    <p>&copy; Augst,2026_2027</p>
+
+</footer>
+<script>
+
+/* =======================
+   LOAD DATA
+======================= */
+let history = JSON.parse(localStorage.getItem("history")) || [];
+
+/* SAVE */
+function saveHistory() {
+    localStorage.setItem("history", JSON.stringify(history));
+}
+
+/* =======================
+   LOAD TABLE
+======================= */
+function loadHistory(data = history) {
+    let table = document.getElementById("historyBody");
+    let empty = document.getElementById("empty");
+
+    table.innerHTML = "";
+
+    if (data.length === 0) {
+        empty.style.display = "block";
+        return;
+    } else {
+        empty.style.display = "none";
+    }
+
+    data.forEach((item, index) => {
+        table.innerHTML += `
+            <tr>
+                <td>${item.from}</td>
+                <td>${item.to}</td>
+                <td>${item.amount}</td>
+                <td>${item.result}</td>
+                <td>${item.time}</td>
+                <td><button class="delete" onclick="deleteItem(${index})">X</button></td>
+            </tr>
+        `;
+    });
+}
+
+/* =======================
+   DELETE SINGLE ITEM
+======================= */
+function deleteItem(index) {
+    history.splice(index, 1);
+    saveHistory();
+    loadHistory();
+}
+
+/* =======================
+   FILTER BY CURRENCY
+======================= */
+function filterTable() {
+    let value = document.getElementById("filter").value;
+
+    if (value === "all") {
+        loadHistory();
+    } else {
+        let filtered = history.filter(item =>
+            item.from === value || item.to === value
+        );
+        loadHistory(filtered);
+    }
+}
+
+/* =======================
+   SEARCH FUNCTION
+======================= */
+function searchTable() {
+    let value = document.getElementById("search").value.toLowerCase();
+
+    let filtered = history.filter(item =>
+        item.from.toLowerCase().includes(value) ||
+        item.to.toLowerCase().includes(value) ||
+        item.amount.toString().includes(value)
+    );
+
+    loadHistory(filtered);
+}
+
+/* =======================
+   CLEAR ALL HISTORY
+======================= */
+function clearHistory() {
+    if (confirm("Are you sure you want to clear all history?")) {
+        history = [];
+        saveHistory();
+        loadHistory();
+    }
+}
+
+/* INIT */
+loadHistory();
+function addSample() {
+    let samples = [
+        { from: "USD", to: "RWF", amount: 10, result: 12500 },
+        { from: "EUR", to: "RWF", amount: 5, result: 6750 },
+        { from: "GBP", to: "RWF", amount: 2, result: 3100 },
+        { from: "KES", to: "RWF", amount: 1000, result: 9000 },
+        { from: "UGX", to: "RWF", amount: 5000, result: 1650 }
+    ];
+
+    // pick random sample
+    let item = samples[Math.floor(Math.random() * samples.length)];
+
+    history.push({
+        from: item.from,
+        to: item.to,
+        amount: item.amount,
+        result: item.result,
+        time: new Date().toLocaleString()
+    });
+
+    saveHistory();   // save to localStorage
+    loadHistory();   // refresh table
+}
+</script>
+
+</body>
+</html>

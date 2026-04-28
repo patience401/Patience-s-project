@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Details</title>
+
+     <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <img src="LOGO.png" width="75" height="75">
+        <h6>CURRENCY EXCHANGE <br> WEBSITE</h6>
+    </div>
+
+    <nav>
+        <button><a href="index.html">Home</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="Full converter.html">Full Converter</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="Currency detail.html">currency Details</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="History.html">History</a></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button><a href="setting.html">Settings</a></button>
+    </nav>
+</header>
+
+<h2>Currency Dashboard</h2>
+
+<div class="section">
+    <button class="btn" onclick="toggleComparison()">Currency Comparison</button>
+    <button class="btn" onclick="toggleHistory()">Historical Rates</button>
+    <div class="grid" id="grid">
+
+        <div class="card"><h3>USD</h3><p>1 = 1250 RWF</p></div>
+        <div class="card"><h3>EUR</h3><p>1 = 1350 RWF</p></div>
+        <div class="card"><h3>GBP</h3><p>1 = 1550 RWF</p></div>
+        <div class="card"><h3>KES</h3><p>1 = 9 RWF</p></div>
+
+    </div>
+    <h2>Exchange Rate Trends</h2>
+    <div class="chart">
+        <div class="bar usd">USD</div>
+        <div class="bar eur">EUR</div>
+        <div class="bar gbp">GBP</div>
+        <div class="bar kes">KES</div>
+    </div>
+    <div class="history" id="history">
+
+        <h3>Historical Rates</h3>
+
+        <p>USD: 2023=1180 | 2024=1200 | 2025=1230 | 2026=1250</p>
+        <p>EUR: 2023=1280 | 2024=1300 | 2025=1330 | 2026=1350</p>
+        <p>GBP: 2023=1480 | 2024=1500 | 2025=1530 | 2026=1550</p>
+
+    </div>
+ <footer class="footer">
+    <h3>Patience Currency Exchange</h3>
+    <p>Phone: +250 72 590 503 6</p>
+    <p>Email:Patience Currency Exchange @gmail.com</p>
+    <p>Location: Nyarugenge, Rwanda</p>
+    <p>&copy; Augst,2026_2027</p>
+</footer>
+
+<script>
+
+function toggleComparison() {
+    let grid = document.getElementById("grid");
+    grid.style.display = (grid.style.display === "grid") ? "none" : "grid";
+}
+
+function toggleHistory() {
+    let history = document.getElementById("history");
+    history.style.display = (history.style.display === "block") ? "none" : "block";
+}
+
+</script>
+
+</body>
+</html>

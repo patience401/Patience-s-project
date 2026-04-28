@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Patient Check-in</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* 🎨 YOUR ORIGINAL CSS (UNCHANGED) */
+:root {
+    --blue: #4f76b8;
+    --dark-blue: #2f5fa5;
+    --green: #16a34a;
+    --light: #f5f6fa;
+    --card: #ffffff;
+    --text: #1f2937;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial; background: var(--light); }
+.header { background: var(--blue); color:white; padding:15px 20px; display:flex; justify-content:space-between; align-items:center;}
+.header .left { display:flex; align-items:center; gap:10px;}
+.container { display:flex; }
+.sidebar { width:220px; background:#e5e7eb; padding:15px;}
+.sidebar button { display:block; width:100%; padding:12px; margin-bottom:10px; border:none; background:transparent; text-align:left; font-weight:bold; cursor:pointer;}
+.sidebar button.active { background:var(--blue); color:white; border-radius:8px;}
+.main { flex:1; padding:20px;}
+.title { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;}
+.new-btn { background:var(--green); color:white; padding:12px 20px; border-radius:10px; border:none;}
+.grid { display:grid; grid-template-columns:2fr 1fr; gap:20px;}
+.card { background:var(--card); padding:15px; border-radius:10px; border:2px solid #d1d5db;}
+.row { display:flex; gap:10px; margin-bottom:10px;}
+input, select, textarea { width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e1;}
+.status { display:flex; gap:10px; margin:10px 0;}
+.status div { flex:1; padding:10px; text-align:center; border-radius:10px; border:2px solid #cbd5e1; cursor:pointer;}
+.status .active { background:#dcfce7; border-color:var(--green);}
+.actions { display:flex; justify-content:space-between; margin-top:10px;}
+.clear { background:#e5e7eb; padding:10px; border-radius:8px; border:none;}
+.register { background:var(--green); color:white; padding:10px; border-radius:8px; border:none;}
+.panel { display:flex; flex-direction:column; gap:15px;}
+.stat { display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #ddd;}
+.quick button { width:100%; margin-bottom:10px; padding:10px; border-radius:10px; border:none;}
+.footer { text-align:center; margin-top:20px; font-size:12px;}
+.sidebar button i { margin-right:10px; color:#4f76b8;}
+.sidebar button.active i { color:white;}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="left">
+        <i class="fa-solid fa-heart-pulse"></i>
+        <div>
+            <h2>Patience’s Clinic Care</h2>
+            <small>Digital Patient Check-in System (Offline)</small>
+        </div>
+    </div>
+    <div>
+        <i class="fa-solid fa-wifi"></i> Offline Mode |
+        <i class="fa-solid fa-user"></i> Receptionist
+    </div>
+</div>
+
+<div class="container">
+
+<!-- SIDEBAR (RESTORED FULL) -->
+<div class="sidebar">
+    <button><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+    <button class="active"><i class="fa-solid fa-user-plus"></i> Check-in</button>
+    <button><i class="fa-solid fa-users"></i> Patients</button>
+    <button><i class="fa-solid fa-calendar-check"></i> Appointments</button>
+    <button><i class="fa-solid fa-chart-bar"></i> Reports</button>
+    <button><i class="fa-solid fa-gear"></i> Settings</button>
+    <button><i class="fa-solid fa-database"></i> Backup Data</button>
+    <button><i class="fa-solid fa-circle-info"></i> About</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="title">
+    <div>
+        <h3>Patient Check-In</h3>
+        <small>Register a new patient or check in existing</small>
+    </div>
+    <button class="new-btn"><i class="fa-solid fa-plus"></i> New Patient</button>
+</div>
+
+<div class="grid">
+
+<!-- FORM -->
+<div class="card">
+
+<h4><i class="fa-solid fa-user"></i> Patient Information</h4>
+
+<div class="row">
+<input id="name" placeholder="Full Name">
+<input id="age" placeholder="Age">
+</div>
+
+<div class="row">
+<input placeholder="Date of birth">
+<select><option>Gender</option></select>
+</div>
+
+<div class="row">
+<input id="phone" placeholder="Phone Number">
+</div>
+
+<div class="status">
+<div class="active">New</div>
+<div>Returning</div>
+</div>
+
+<textarea id="notes" placeholder="Notes..." rows="3"></textarea>
+
+<div class="actions">
+<button class="clear" onclick="clearForm()"><i class="fa-solid fa-trash"></i> Clear</button>
+<button class="register" onclick="registerPatient()"><i class="fa-solid fa-check"></i> Register</button>
+</div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="panel">
+
+<div class="card">
+<h4><i class="fa-solid fa-calendar-day"></i> Today’s Overview</h4>
+<div class="stat"><span><i class="fa-solid fa-users"></i> Checked-in</span><b id="checked">0</b></div>
+<div class="stat"><span><i class="fa-solid fa-clock"></i> Waiting</span><b id="waiting">0</b></div>
+<div class="stat"><span><i class="fa-solid fa-circle-check"></i> Served</span><b id="served">0</b></div>
+</div>
+
+<div class="card quick">
+<h4><i class="fa-solid fa-bolt"></i> Quick Actions</h4>
+<button onclick="searchPatient()"><i class="fa-solid fa-magnifying-glass"></i> Search Patient</button>
+<button><i class="fa-solid fa-users"></i> View Queue</button>
+<button><i class="fa-solid fa-calendar"></i> Appointments</button>
+<button><i class="fa-solid fa-chart-bar"></i> Reports</button>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+Patience’s clinic care — serving our community ❤️
+</div>
+
+</div>
+
+</div>
+
+<script>
+// STORAGE
+let patients = JSON.parse(localStorage.getItem("patients")) || [];
+
+// REGISTER
+function registerPatient() {
+    let name = document.getElementById("name").value;
+    let age = document.getElementById("age").value;
+    let phone = document.getElementById("phone").value;
+
+    if(!name || !age) {
+        alert("Fill all fields");
+        return;
+    }
+
+    let patient = { name, age, phone, served:false };
+    patients.push(patient);
+
+    localStorage.setItem("patients", JSON.stringify(patients));
+
+    updateStats();
+    clearForm();
+
+    alert("Patient Registered ✅");
+}
+
+// UPDATE STATS
+function updateStats() {
+    document.getElementById("checked").innerText = patients.length;
+    document.getElementById("waiting").innerText = patients.filter(p => !p.served).length;
+    document.getElementById("served").innerText = patients.filter(p => p.served).length;
+}
+
+// CLEAR
+function clearForm() {
+    document.getElementById("name").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("notes").value = "";
+}
+
+// SEARCH
+function searchPatient() {
+    let name = prompt("Enter patient name");
+    let found = patients.find(p => p.name.toLowerCase() === name.toLowerCase());
+
+    if(found) alert("Found: " + found.name + " | Age: " + found.age);
+    else alert("Patient not found");
+}
+
+// LOAD
+updateStats();
+</script>
+
+</body>
+</html>
